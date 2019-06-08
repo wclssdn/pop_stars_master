@@ -24,7 +24,7 @@ cc.Class({
         this.textureArr[i] = texture
       })
     }
-     console.log('数据加载完毕')
+     //console.log('数据加载完毕')
   },
   onWalk(target) {
     target.playAnimation('walk', -1)
@@ -53,7 +53,7 @@ cc.Class({
     let assert = target.getComponent(dragonBones.ArmatureDisplay)
     //  cc.log("before", assert)
     assert.destroy()
-    console.log(level)
+  //  console.log(level)
     let main = target.addComponent(dragonBones.ArmatureDisplay)
     main.dragonAsset = this.dbArray[level - 1]
     main.dragonAtlasAsset = this.textureArr[level - 1]

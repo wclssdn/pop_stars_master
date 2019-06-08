@@ -106,6 +106,7 @@ cc.Class({
     }
     isChain = JSON.stringify(isChain) == 'null' ? true : isChain
     isBomb = isBomb ? isBomb : false
+    color=color||this.color
     let self = this
     // 爆炸触发
     if (this._status == 1 && isBomb == true) {

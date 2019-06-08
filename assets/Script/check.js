@@ -56,7 +56,7 @@ cc.Class({
           isSingle = false
         }
         this.map[i][j].getComponent('cell').isSingle = isSingle
-        console.log(i, j, this.map[i][j].getComponent('cell').isSingle, this.map[i][j].getComponent('cell').color)
+       // console.log(i, j, this.map[i][j].getComponent('cell').isSingle, this.map[i][j].getComponent('cell').color)
         if (this.groups[i][j].length >= min) {
           for (let z = 0; z < propConfig.length; z++) {
             if (this.groups[i][j].length <= propConfig[z].max && this.groups[i][j].length >= propConfig[z].min) {

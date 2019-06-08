@@ -4,9 +4,10 @@ cc.Class({
 
   properties: {
     label: cc.Label,
+    tipLabel:cc.Label,
   },
   start() {
-    this.tip = ['一次性大量消除可获得道具!', 'X2道具可以翻倍一次消除的分数', '炸弹道具可以消除全屏同色方块', '单个方块无法消除哦','捡到宝箱！加两步！','仙女棒可以消除所有单个方块']
+    this.tip = ['一次性大量消除可获得道具!', 'X2道具可以翻倍一次消除的分数', '炸弹道具可以消除全屏同色方块', '单个方块无法消除哦','炸弹道具可以消除全屏同色方块','仙女棒可以消除所有单个方块']
     this.otherTip = [
       '长风破浪会有时，直挂云帆济沧海',
       '黄沙百战穿金甲，不破楼兰终不还',
@@ -29,6 +30,11 @@ cc.Class({
       '夜阑卧听风吹雨，铁马冰河入梦来',
       '人生自古谁无死？留取丹心照汗青'
     ]
+  },
+  onLoad(){
+    setInterval(()=>{
+      this.tipLabel.string='tip:'+this.tip[Math.floor(Math.random() * this.tip.length)]
+    },10000)
   },
   init(s, type) { //传type是道具触发 不传是随机触发
     this._score = s
