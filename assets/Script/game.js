@@ -46,31 +46,47 @@ cc.Class({
   gameStart() {
     this.recoveryAllBlocks().then()
     this._score.init(this)
-    this.mapSet(this.rowNum).then((result) => {
-      // console.log('游戏状态改变', result)
-      if (this.isFirstTime()) {
-        this.showTutorial()
-      } else {
+    let data = [
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [4, 2, 3, 4, 2, 2, 3, 4]
+    ]
+    if (this.isFirstTime()) {
+      this.mapSet(this.rowNum, data).then((result) => {
+        this.showTutorial(this.map[1][4], '点击连续的区域生成炸弹鸭')
+        this.tutorialProgress = 1
         this._status = 1
-      }
-    })
+      })
+    }else{
+      this.mapSet(this.rowNum).then((result) => {
+        this._status = 1
+      })
+    }
   },
-  showTutorial() {
+  showTutorial(target, label) {
     this.tutorialNode.active = true
     this.tutorialNode.getChildByName('targetBtn').getChildByName('sqr').runAction(cc.repeatForever(cc.sequence(cc.scaleTo(0.3, 0.8), cc.scaleTo(0.3, 1.2))))
-    this.tutorialNode.getChildByName('target').x = this.map[this.tutorialPos[0]][this.tutorialPos[1]].x
-    this.tutorialNode.getChildByName('target').y = this.map[this.tutorialPos[0]][this.tutorialPos[1]].y
-    this.tutorialNode.getChildByName('targetBtn').x = this.map[this.tutorialPos[0]][this.tutorialPos[1]].x
-    this.tutorialNode.getChildByName('targetBtn').y = this.map[this.tutorialPos[0]][this.tutorialPos[1]].y
+    this.tutorialNode.getChildByName('target').x = target.x
+    this.tutorialNode.getChildByName('target').y = target.y
+    this.tutorialNode.getChildByName('targetBtn').x = target.x
+    this.tutorialNode.getChildByName('targetBtn').y = target.y
+    this.tutorialNode.getChildByName('label').getChildByName('label').getComponent(cc.Label).string = label
   },
   closeTutorial() {
     this.tutorialNode.getChildByName('targetBtn').getChildByName('sqr').stopAllActions()
     // console.log('close Tutorial ')
     this.tutorialNode.active = false
     this._status = 1
-    this.map[this.tutorialPos[0]][this.tutorialPos[1]].getComponent('cell').onTouched({
+
+    this.map[1][4].getComponent('cell').onTouched({
       type: 1
     }, false, false)
+    if (this.tutorialProgress == 1) {
+      setTimeout(()=>{
+        this.showTutorial(this.map[1][4], '点击炸弹消除所有同色方块哦')
+        this.tutorialProgress = 2
+      },1000)
+    }
   },
   isFirstTime() {
     let isFirst = false
@@ -83,8 +99,12 @@ cc.Class({
     }
     return isFirst
   },
-  // 初始化地图
-  mapSet(num) {
+  /**
+   * 初始化地图
+   * @param {*} num 
+   * @param {*} data 传入颜色数组
+   */
+  mapSet(num, data) {
     this.map = new Array()
     let self = this
     // 生成两个随机的对象数组
@@ -100,10 +120,11 @@ cc.Class({
       for (let i = 0; i < num; i++) { //行
         this.map[i] = new Array()
         for (let j = 0; j < num; j++) { //列
-          let itemType = (i == a && j == b) ? 1 : (i == c && j == d) ? 2 : 0
+          let itemType = (i == a && j == b) ? 1 : (i == c && j == d) ? (data ? 1 : 2) : 0
           self.map[i][j] = self.instantiateBlock(self, {
             x: j,
             y: i,
+            color: (data && data[i]) ? data[i][j] : null,
             width: self.blockWidth,
             startTime: (i + j + 1) * self._controller.config.json.startAnimationTime / num * 2
           }, self.blocksContainer, itemType)
