@@ -60,7 +60,7 @@ cc.Class({
 	},
 	onItemShareSuccess() {
 		this.hasShared = true
-
+		this._controller.game.fakeShareSuccess()
 	},
 	getHighestLevel() {
 		let highLevel = wx.getStorageSync('highLevel')
