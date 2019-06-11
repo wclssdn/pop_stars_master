@@ -33,7 +33,8 @@ cc.Class({
   lateStart() {
     if (this.social.node.active) {
       this.social.closeBannerAdv()
-    }
+		}
+		this.game._status=0
     this.pictorial.getComponent('pictorial').init(this)
     this.startPage.bannerNode.scale = 1
     this.pageMgr.onOpenPage(0)

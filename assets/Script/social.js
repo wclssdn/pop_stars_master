@@ -47,7 +47,7 @@ cc.Class({
 				c.totalRank.active = false
 			}
 			cc.director.resume()
-			if (self.isSharing) {
+			if (self.isSharing&&self._controller._status==1) {
 				// TODO 分享成功
 				self.onItemShareSuccess()
 			}
