@@ -88,9 +88,11 @@ cc.Class({
     this.pictorial.active = false
   },
   openHelpPage() {
+		this.pageMgr.addPage(2)
     this.helpPage.active = true
   },
   closeHelpPage() {
+		this.pageMgr.removePage(2)
     this.helpPage.active = false
   }
 });

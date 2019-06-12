@@ -42,7 +42,11 @@ cc.Class({
     this.node.y = (730 / 2 - g.gap - width / 2) - pos.y * (width + g.gap)
     this.node.rotation = 0
     this.playStartAction()
-  },
+	},
+	changeItemType(type){
+		this._itemType=type
+		this.colorSprite.spriteFrame = type ? this._game.propSpriteFrame[(type - 1) * 4 + this.color - 1] : this._game.blockSprite[this.color - 1]
+	},
   onWarning(type) {
     this.warningSprite.spriteFrame = this._game.warningSpriteFrame[type - 1] || ''
     this.warningType = type
@@ -164,7 +168,7 @@ cc.Class({
     if (this._itemType != 0) {
       // console.log("触发了道具", this._itemType)
 
-      self._game.onItem(this._itemType, color, {
+      self._game.onItem(this._itemType, this.color, {
         x: this.node.x,
         y: this.node.y
       })

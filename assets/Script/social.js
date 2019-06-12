@@ -47,7 +47,7 @@ cc.Class({
 				c.totalRank.active = false
 			}
 			cc.director.resume()
-			if (self.isSharing&&self._controller._status==1) {
+			if (!self.hasShared && self.isSharing && self._controller.game._status == 1) {
 				// TODO 分享成功
 				self.onItemShareSuccess()
 			}
@@ -88,12 +88,10 @@ cc.Class({
 	},
 	onItemShareButton() {
 		if (!this.hasShared) {
-			setTimeout(() => {
-				this.isSharing = true
-			}, 2000)
-		}else{
+			this.isSharing = true
+		} else {
 			// 提示玩家 当前局已分享
-			return 
+			return
 		}
 		wx.shareAppMessage({
 			title: "开局只是个农民，现在已经做到宰相",

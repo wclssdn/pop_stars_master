@@ -48,8 +48,8 @@ cc.Class({
 	gameStart() {
 		this.recoveryAllBlocks().then()
 		this.shareBtn.active = true
-		if(this.isWeChat){
-			this._controller.social.hasShared=false
+		if (this.isWeChat) {
+			this._controller.social.hasShared = false
 		}
 		this._score.init(this)
 		let data = [
@@ -116,10 +116,16 @@ cc.Class({
 		this.shareBtn.active = false
 		this.shareSuccessDialog.active = true
 	},
-	onBomb(){
+	onCreateBomb() {
+		let x = Math.floor(Math.random() * 8)
+		let y = Math.floor(Math.random() * 8)
 		this.shareSuccessDialog.active = false
-		this.onItem(2,Math.ceil(Math.random() * 4),null)
-		this.checkNeedFall()
+		if(this.map[x][y].getComponent('cell')._itemType==0){
+			this.map[x][y].getComponent('cell').changeItemType(2)
+		}else{
+			this.onCreateBomb()
+			return
+		}
 	},
 	/**
 	 * 初始化地图
@@ -321,7 +327,7 @@ cc.Class({
 	},
 	checkGenerateProp(chain) {
 		return new Promise((resolve, reject) => {
-			if (this.target&&this.target.warning) {
+			if (this.target && this.target.warning) {
 				this.generatePropItem(this.target.warning).then(() => {
 					resolve()
 					return
