@@ -47,10 +47,10 @@ cc.Class({
 				c.totalRank.active = false
 			}
 			cc.director.resume()
-			if (!self.hasShared && self.isSharing && self._controller.game._status == 1) {
-				// TODO 分享成功
-				self.onItemShareSuccess()
-			}
+			// if (!self.hasShared && self.isSharing && self._controller.game._status == 1) {
+			// 	// TODO 分享成功
+			// 	self.onItemShareSuccess()
+			// }
 		})
 		wx.onHide(() => {
 			cc.director.pause()
@@ -210,7 +210,7 @@ cc.Class({
 	onReviveButton(type) {
 		// 广告位
 		let self = this
-		this.adType = type //0表示加倍 1表示复活
+		this.adType = type //0表示加倍 1表示复活 2表示炸弹
 		if (this.audioAd) {
 			this.audioAd.show().catch(() => {
 				// 失败重试
@@ -218,10 +218,12 @@ cc.Class({
 					.then(() => this.audioAd.show())
 					.catch(err => {
 						console.log('激励视频 广告显示失败', err.errMsg)
-						if (self.adType) {
+						if (self.adType == 1) {
 							self._controller.game.onSkipRevive()
-						} else {
+						} else if (self.adType == 2) {
 							self._controller.scoreMgr.onLevelUpButton()
+						} else {
+							self.onItemShareSuccess()
 						}
 					})
 			})
@@ -242,15 +244,19 @@ cc.Class({
 			self.fakeShare()
 		})
 		this.audioAd.onClose((res) => {
-			if (self.adType) {
+			if (self.adType == 1) {
 				if (res && res.isEnded || res === undefined) {
 					self._controller.game.showReviveSuccess()
 				} else {
 					self._controller.game.askRevive()
 				}
-			} else {
+			} else if (self.adType == 0) {
 				if (res && res.isEnded || res === undefined) {
 					self._controller.scoreMgr.onLevelUpButton(2)
+				}
+			} else {
+				if (res && res.isEnded || res === undefined) {
+					self.onItemShareSuccess()
 				}
 			}
 		})

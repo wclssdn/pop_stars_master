@@ -53,8 +53,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.37842305869023757,
-      "y": 0.37842305869023757,
+      "x": 0.1,
+      "y": 0.1,
       "z": 1
     },
     "_quat": {
@@ -4748,7 +4748,7 @@
     },
     "component": "",
     "_componentId": "47c77yOeKpPiJVINXipHohs",
-    "handler": "onItemShare",
+    "handler": "onItemAdv",
     "customEventData": ""
   },
   {
@@ -6426,8 +6426,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "感谢分享",
-    "_N$string": "感谢分享",
+    "_string": "感谢支持",
+    "_N$string": "感谢支持",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,

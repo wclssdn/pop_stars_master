@@ -112,6 +112,13 @@ cc.Class({
 			this.fakeShareSuccess()
 		}
 	},
+	onItemAdv() {
+		if (this.isWeChat) {
+			this._controller.social.onReviveButton(2)
+		} else {
+			this.fakeShareSuccess()
+		}
+	},
 	fakeShareSuccess() {
 		this.shareBtn.active = false
 		this.shareSuccessDialog.active = true
