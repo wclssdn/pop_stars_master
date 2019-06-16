@@ -42,7 +42,11 @@ cc.Class({
     this.node.y = (730 / 2 - g.gap - width / 2) - pos.y * (width + g.gap)
     this.node.rotation = 0
     this.playStartAction()
-  },
+	},
+	changeItemType(type){
+		this._itemType=type
+		this.colorSprite.spriteFrame = type ? this._game.propSpriteFrame[(type - 1) * 4 + this.color - 1] : this._game.blockSprite[this.color - 1]
+	},
   onWarning(type) {
     this.warningSprite.spriteFrame = this._game.warningSpriteFrame[type - 1] || ''
     this.warningType = type
@@ -100,12 +104,13 @@ cc.Class({
   onTouched(color, isChain, isBomb, time) { //道具新增参数 isChain是否连锁 isBomb是否强制消除
     if (time) {
       setTimeout(() => {
-        this.onTouched(color, isChain, isBomb)
+        this.onTouched(color, false, isBomb)
       }, time)
       return
     }
-    isChain = isChain ? isChain : true
+    isChain = JSON.stringify(isChain) == 'null' ? true : isChain
     isBomb = isBomb ? isBomb : false
+    color=color||this.color
     let self = this
     // 爆炸触发
     if (this._status == 1 && isBomb == true) {
@@ -153,7 +158,7 @@ cc.Class({
   },
   onBlockPop(color, isChain, isBomb) {
     let self = this
-    isChain = isChain ? isChain : true
+    isChain = JSON.stringify(isChain) == 'null' ? true : isChain
     isBomb = isBomb ? isBomb : false
     self._game.checkNeedFall()
     self._game._status = 5
@@ -163,7 +168,7 @@ cc.Class({
     if (this._itemType != 0) {
       // console.log("触发了道具", this._itemType)
 
-      self._game.onItem(this._itemType, color, {
+      self._game.onItem(this._itemType, this.color, {
         x: this.node.x,
         y: this.node.y
       })

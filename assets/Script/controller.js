@@ -2,6 +2,7 @@
  * @author uu
  * @file 主控制器
  */
+
 cc.Class({
   extends: cc.Component,
   properties: {
@@ -32,7 +33,8 @@ cc.Class({
   lateStart() {
     if (this.social.node.active) {
       this.social.closeBannerAdv()
-    }
+		}
+		this.game._status=0
     this.pictorial.getComponent('pictorial').init(this)
     this.startPage.bannerNode.scale = 1
     this.pageMgr.onOpenPage(0)
@@ -86,9 +88,11 @@ cc.Class({
     this.pictorial.active = false
   },
   openHelpPage() {
+		this.pageMgr.addPage(2)
     this.helpPage.active = true
   },
   closeHelpPage() {
+		this.pageMgr.removePage(2)
     this.helpPage.active = false
   }
 });
