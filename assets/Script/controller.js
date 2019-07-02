@@ -16,7 +16,7 @@ cc.Class({
     totalRank: cc.Node,
     groupRank: cc.Node,
     startPage: require('startPage'),
-    navNode: cc.Node,
+   // navNode: cc.Node,
     pictorial: cc.Node,
     helpPage: cc.Node,
   },
@@ -31,19 +31,12 @@ cc.Class({
     this.lateStart()
   },
   lateStart() {
-    if (this.social.node.active) {
-      this.social.closeBannerAdv()
-		}
 		this.game._status=0
     this.pictorial.getComponent('pictorial').init(this)
     this.startPage.bannerNode.scale = 1
     this.pageMgr.onOpenPage(0)
   },
   onGameStartButton() {
-    // TODO:  增加一个动画
-    if (this.social.node.active) {
-      this.social.openBannerAdv()
-    }
     this.startPage.showAnimation().then(() => {
       this.gameStart()
     })
@@ -54,14 +47,14 @@ cc.Class({
   },
   closeRank() {
     this.totalRank.active = false
-    this.navNode.active = true
+   // this.navNode.active = true
     if (this.social.node.active) {
       this.social.closeRank()
     }
   },
   openRank() {
     this.totalRank.active = true
-    this.navNode.active = false
+   // this.navNode.active = false
     if (this.social.node.active) {
       this.social.showRank()
     }
@@ -75,7 +68,7 @@ cc.Class({
   },
   closeGroupRank() {
     this.groupRank.active = false
-    this.navNode.active = true
+   // this.navNode.active = true
     if (this.social.node.active) {
       this.social.closeGroupRank()
       this.pageMgr.removePage(6)

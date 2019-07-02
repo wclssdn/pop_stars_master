@@ -15,10 +15,10 @@ cc.Class({
 	init(c) {
 		let self = this
 		this._controller = c
-		wx.showShareMenu({
+		tt.showShareMenu({
 			withShareTicket: true
 		})
-		wx.onShareAppMessage(function () {
+		tt.onShareAppMessage(function () {
 			return {
 				title: "开局只是个农民，现在已经做到宰相",
 				// imageUrlId: 'oxEwGvClT0uldQ470pM84w',
@@ -31,28 +31,28 @@ cc.Class({
 		//   this.tex = new cc.Texture2D();
 		//TODO: 微信小游戏导致音乐自动关闭 处理失败
 		// 监听
-		wx.onAudioInterruptionEnd(() => {
+		tt.onAudioInterruptionEnd(() => {
 			c.musicMgr.pauseBg()
 			c.musicMgr.resumeBg()
 		})
-		wx.onShow((options) => {
+		tt.onShow((options) => {
 			// console.log(options)
-			if (options.scene == 1044) {
-				wx.postMessage({
-					message: 'group',
-					shareTicket: options.shareTicket
-				})
-				c.openGroupRank()
-				this.display.node.active = false
-				c.totalRank.active = false
-			}
+			// if (options.scene == 1044) {
+			// 	wx.postMessage({
+			// 		message: 'group',
+			// 		shareTicket: options.shareTicket
+			// 	})
+			// 	c.openGroupRank()
+			// 	this.display.node.active = false
+			// 	c.totalRank.active = false
+			// }
 			cc.director.resume()
 			// if (!self.hasShared && self.isSharing && self._controller.game._status == 1) {
 			// 	// TODO 分享成功
 			// 	self.onItemShareSuccess()
 			// }
 		})
-		wx.onHide(() => {
+		tt.onHide(() => {
 			cc.director.pause()
 		})
 		// 获取最高官阶
@@ -63,24 +63,24 @@ cc.Class({
 		this._controller.game.fakeShareSuccess()
 	},
 	getHighestLevel() {
-		let highLevel = wx.getStorageSync('highLevel')
+		let highLevel = tt.getStorageSync('highLevel')
 		return highLevel
 	},
 	getHighestScore() {
-		let score = wx.getStorageSync('highScore')
+		let score = tt.getStorageSync('highScore')
 		return score
 	},
 	// --------------- share ----------------
 	onShareButton() {
 		var self = this;
-		wx.shareAppMessage({
+		tt.shareAppMessage({
 			title: "我终于当上了" + this._controller.scoreMgr.levelData[this._controller.scoreMgr.level - 1].name + ",不服来战",
 			// imageUrlId: 'oxEwGvClT0uldQ470pM84w',
 			imageUrl: 'https://mmocgame.qpic.cn/wechatgame/LtJZOjH6Z9ibiaMlpqzldsOf46Q7TZiaysI1fwc4Oj1L3CkbCaJMAMoicibbHu2HUQkOib/0'
 		})
 	},
 	onUsualShareButton() {
-		wx.shareAppMessage({
+		tt.shareAppMessage({
 			title: "开局只是个农民，现在已经做到宰相",
 			// imageUrlId: 'oxEwGvClT0uldQ470pM84w',
 			imageUrl: 'https://mmocgame.qpic.cn/wechatgame/LtJZOjH6Z9ibiaMlpqzldsOf46Q7TZiaysI1fwc4Oj1L3CkbCaJMAMoicibbHu2HUQkOib/0'
@@ -93,14 +93,14 @@ cc.Class({
 			// 提示玩家 当前局已分享
 			return
 		}
-		wx.shareAppMessage({
+		tt.shareAppMessage({
 			title: "开局只是个农民，现在已经做到宰相",
 			// imageUrlId: 'oxEwGvClT0uldQ470pM84w',
 			imageUrl: 'https://mmocgame.qpic.cn/wechatgame/LtJZOjH6Z9ibiaMlpqzldsOf46Q7TZiaysI1fwc4Oj1L3CkbCaJMAMoicibbHu2HUQkOib/0'
 		})
 	},
 	onShakePhone() {
-		wx.vibrateShort()
+		//wx.vibrateShort()
 	},
 	// ---------------分数上传---------------
 	onGameOver(level, score) {
@@ -110,14 +110,14 @@ cc.Class({
 		let highLevel = level
 		let highScore = score
 		let self = this
-		highLevel = wx.getStorageSync('highLevel')
+		highLevel = tt.getStorageSync('highLevel')
 		highLevel = parseInt(highLevel)
 		if (highLevel) {
 			highLevel = highLevel < level ? level : highLevel
 		} else {
 			highLevel = level
 		}
-		highScore = wx.getStorageSync('highScore')
+		highScore = tt.getStorageSync('highScore')
 		if (highScore) {
 			highScore = parseInt(highScore)
 			highScore = highScore < score ? score : highScore
@@ -125,8 +125,8 @@ cc.Class({
 			highScore = score
 		}
 		var highLevelName = this._controller.gameData.json.levelData[highLevel - 1].name
-		wx.setStorageSync('highLevel', highLevel + '')
-		wx.setStorageSync('highScore', highScore + '')
+		tt.setStorageSync('highLevel', highLevel + '')
+		tt.setStorageSync('highScore', highScore + '')
 		self._controller.scoreMgr.failHighScore.string = "您的最高分:" + (highScore + '')
 		var kvDataList = new Array()
 		kvDataList.push({
@@ -136,7 +136,7 @@ cc.Class({
 			key: "highScore",
 			value: highScore + '',
 		})
-		wx.setUserCloudStorage({
+		tt.setUserCloudStorage({
 			"KVDataList": kvDataList,
 			success: () => {
 				//  self.showRank()
@@ -147,11 +147,11 @@ cc.Class({
 		})
 	},
 	showRank() {
-		wx.postMessage({
-			message: 'Show'
-		})
-		this.display.node.active = true
-		this._isShow = true
+		// wx.postMessage({
+		// 	message: 'Show'
+		// })
+		// this.display.node.active = true
+		// this._isShow = true
 	},
 	// switchRankType() {
 	//   wx.postMessage({
@@ -160,18 +160,18 @@ cc.Class({
 	//   this._isShow = true
 	// },
 	closeRank() {
-		this.display.node.active = false
-		wx.postMessage({
-			message: 'Hide'
-		})
-		this._isShow = false
+		// this.display.node.active = false
+		// wx.postMessage({
+		// 	message: 'Hide'
+		// })
+		// this._isShow = false
 	},
 	showGroupRank() {
-		wx.postMessage({
-			message: 'Show'
-		})
-		this.groupDisplay.node.active = true
-		this._isShow = true
+		// wx.postMessage({
+		// 	message: 'Show'
+		// })
+		// this.groupDisplay.node.active = true
+		// this._isShow = true
 	},
 	// switchRankType() {
 	//   wx.postMessage({
@@ -180,14 +180,14 @@ cc.Class({
 	//   this._isShow = true
 	// },
 	closeGroupRank() {
-		this.groupDisplay.node.active = false
-		wx.postMessage({
-			message: 'Hide'
-		})
-		this._isShow = false
+		// this.groupDisplay.node.active = false
+		// wx.postMessage({
+		// 	message: 'Hide'
+		// })
+		// this._isShow = false
 	},
 	createImage(sprite, url) {
-		let image = wx.createImage();
+		let image = tt.createImage();
 		image.onload = function () {
 			let texture = new cc.Texture2D();
 			texture.initWithElement(image);
@@ -197,82 +197,82 @@ cc.Class({
 		image.src = url;
 	},
 	update() {
-		if (this._isShow) {
-			if (this.display.node.active) {
-				this.display.node.getComponent(cc.WXSubContextView).update()
-			}
-			if (this.groupDisplay.node.active) {
-				this.groupDisplay.node.getComponent(cc.WXSubContextView).update()
-			}
-		}
+		// if (this._isShow) {
+		// 	if (this.display.node.active) {
+		// 		this.display.node.getComponent(cc.WXSubContextView).update()
+		// 	}
+		// 	if (this.groupDisplay.node.active) {
+		// 		this.groupDisplay.node.getComponent(cc.WXSubContextView).update()
+		// 	}
+		// }
 	},
 	// 控制打开广告
 	onReviveButton(type) {
 		// 广告位
-		let self = this
-		this.adType = type //0表示加倍 1表示复活 2表示炸弹
-		if (this.audioAd) {
-			this.audioAd.show().catch(() => {
-				// 失败重试
-				this.audioAd.load()
-					.then(() => this.audioAd.show())
-					.catch(err => {
-						console.log('激励视频 广告显示失败', err.errMsg)
-						if (self.adType == 1) {
-							self._controller.game.onSkipRevive()
-						} else if (self.adType == 2) {
-							self._controller.scoreMgr.onLevelUpButton()
-						} else {
-							self.onItemShareSuccess()
-						}
-					})
-			})
-			return
-		}
-		this.audioAd = wx.createRewardedVideoAd({
-			adUnitId: 'adunit-482148cfeb243378'
-		})
-		this.audioAd.show().catch(() => {
-			// 失败重试
-			this.audioAd.load()
-				.then(() => this.audioAd.show())
-				.catch(err => {
-					self.fakeShare()
-				})
-		})
-		this.audioAd.onError(err => {
-			self.fakeShare()
-		})
-		this.audioAd.onClose((res) => {
-			if (self.adType == 1) {
-				if (res && res.isEnded || res === undefined) {
-					self._controller.game.showReviveSuccess()
-				} else {
-					self._controller.game.askRevive()
-				}
-			} else if (self.adType == 0) {
-				if (res && res.isEnded || res === undefined) {
-					self._controller.scoreMgr.onLevelUpButton(2)
-				}
-			} else {
-				if (res && res.isEnded || res === undefined) {
-					self.onItemShareSuccess()
-				}
-			}
-		})
+		// let self = this
+		// this.adType = type //0表示加倍 1表示复活 2表示炸弹
+		// if (this.audioAd) {
+		// 	this.audioAd.show().catch(() => {
+		// 		// 失败重试
+		// 		this.audioAd.load()
+		// 			.then(() => this.audioAd.show())
+		// 			.catch(err => {
+		// 				console.log('激励视频 广告显示失败', err.errMsg)
+		// 				if (self.adType == 1) {
+		// 					self._controller.game.onSkipRevive()
+		// 				} else if (self.adType == 2) {
+		// 					self._controller.scoreMgr.onLevelUpButton()
+		// 				} else {
+		// 					self.onItemShareSuccess()
+		// 				}
+		// 			})
+		// 	})
+		// 	return
+		// }
+		// this.audioAd = wx.createRewardedVideoAd({
+		// 	adUnitId: 'adunit-482148cfeb243378'
+		// })
+		// this.audioAd.show().catch(() => {
+		// 	// 失败重试
+		// 	this.audioAd.load()
+		// 		.then(() => this.audioAd.show())
+		// 		.catch(err => {
+		// 			self.fakeShare()
+		// 		})
+		// })
+		// this.audioAd.onError(err => {
+		// 	self.fakeShare()
+		// })
+		// this.audioAd.onClose((res) => {
+		// 	if (self.adType == 1) {
+		// 		if (res && res.isEnded || res === undefined) {
+		// 			self._controller.game.showReviveSuccess()
+		// 		} else {
+		// 			self._controller.game.askRevive()
+		// 		}
+		// 	} else if (self.adType == 0) {
+		// 		if (res && res.isEnded || res === undefined) {
+		// 			self._controller.scoreMgr.onLevelUpButton(2)
+		// 		}
+		// 	} else {
+		// 		if (res && res.isEnded || res === undefined) {
+		// 			self.onItemShareSuccess()
+		// 		}
+		// 	}
+		// })
 	},
 	fakeShare() {
-		let self = this
-		wx.shareAppMessage({
-			title: "我已经玩到" + this._controller.scoreMgr.score + "分了，邀请你来挑战",
-			// imageUrlId: 'oxEwGvClT0uldQ470pM84w',
-			imageUrl: 'https://mmocgame.qpic.cn/wechatgame/LtJZOjH6Z9ibiaMlpqzldsOf46Q7TZiaysI1fwc4Oj1L3CkbCaJMAMoicibbHu2HUQkOib/0'
-		})
-		if (this.adType) {
-			self._controller.game.showReviveSuccess()
-		} else {
-			self._controller.scoreMgr.onLevelUpButton(2)
-		}
+		// let self = this
+		// wx.shareAppMessage({
+		// 	title: "我已经玩到" + this._controller.scoreMgr.score + "分了，邀请你来挑战",
+		// 	// imageUrlId: 'oxEwGvClT0uldQ470pM84w',
+		// 	imageUrl: 'https://mmocgame.qpic.cn/wechatgame/LtJZOjH6Z9ibiaMlpqzldsOf46Q7TZiaysI1fwc4Oj1L3CkbCaJMAMoicibbHu2HUQkOib/0'
+		// })
+		// if (this.adType) {
+		// 	self._controller.game.showReviveSuccess()
+		// } else {
+		// 	self._controller.scoreMgr.onLevelUpButton(2)
+		// }
 	},
 	openBannerAdv() {
 		// 创建 Banner 广告实例，提前初始化
@@ -307,13 +307,13 @@ cc.Class({
 	},
 	navToMiniprogram(event, custom) {
 		console.log(custom)
-		wx.navigateToMiniProgram({
+		tt.navigateToMiniProgram({
 			appId: custom
 		})
 	},
 	closeBannerAdv() {
-		if (this.bannerAd) {
-			this.bannerAd.hide()
-		}
+		// if (this.bannerAd) {
+		// 	this.bannerAd.hide()
+		// }
 	}
 });

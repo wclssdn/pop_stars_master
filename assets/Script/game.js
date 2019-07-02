@@ -47,7 +47,7 @@ cc.Class({
 	// 游戏开始
 	gameStart() {
 		this.recoveryAllBlocks().then()
-		this.shareBtn.active = true
+		//this.shareBtn.active = true
 		if (this.isWeChat) {
 			this._controller.social.hasShared = false
 		}
@@ -96,8 +96,8 @@ cc.Class({
 	},
 	isFirstTime() {
 		let isFirst = false
-		if (this.isWeChat && !wx.getStorageSync('isFirst')) {
-			wx.setStorageSync('isFirst', "1")
+		if (this.isWeChat && !tt.getStorageSync('isFirst')) {
+			tt.setStorageSync('isFirst', "1")
 			isFirst = true
 		} else if (!cc.sys.localStorage.getItem('isFirst')) {
 			cc.sys.localStorage.setItem('isFirst', "1")

@@ -297,16 +297,16 @@ cc.Class({
   // todo 复活
   onGameOver(isTrue) {
     isTrue = isTrue || 0
-    if (this._game._status != 3 && (isTrue || this.reviveTime >= 3)) {
+    //if (this._game._status != 3 && (isTrue || this.reviveTime >= 3)) {
       this._game.gameOver()
       this.updateFailPage()
       if (this._controller.social.node.active) {
         // 仅上传分数
         this._controller.social.onGameOver(this.level, this.score)
       }
-    } else if (!isTrue) {
-      this._game.askRevive()
-    }
+    // } else if (!isTrue) {
+    //   this._game.askRevive()
+    // }
   },
   onDoubleStepBtn() {
     if (this._controller.social.node.active) {
