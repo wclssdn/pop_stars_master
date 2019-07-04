@@ -46,6 +46,10 @@ cc.Class({
 	//---------------- 游戏控制 ---------------------
 	// 游戏开始
 	gameStart() {
+		// 打开视频录制
+		if (this._controller.social.node.active) {
+			this._controller.social.startRecord()
+		}
 		this.recoveryAllBlocks().then()
 		//this.shareBtn.active = true
 		if (this.isWeChat) {

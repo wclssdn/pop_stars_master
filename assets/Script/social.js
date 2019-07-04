@@ -57,6 +57,12 @@ cc.Class({
 		})
 		// 获取最高官阶
 		this.getHighestLevel()
+		// 录屏
+		this.recorder = tt.getGameRecorderManager()
+		this.recorder.onStop(res => {
+			this.recorderUrl = res.videoPath
+			console.log('暂停录像', res.videoPath)
+		})
 	},
 	onItemShareSuccess() {
 		this.hasShared = true
@@ -315,5 +321,29 @@ cc.Class({
 		// if (this.bannerAd) {
 		// 	this.bannerAd.hide()
 		// }
+	},
+	startRecord() {
+		console.log('打开录像')
+		this.recorder.start({
+			duration: 300
+		})
+	},
+	stopRecord() {
+
+
+		this.recorder.stop()
+	},
+	shareRecord() {
+		if (this.recorderUrl) {
+			tt.shareVideo({
+				videoPath: this.recorderUrl,
+				success() {
+					console.log(`分享成功！`);
+				},
+				fail(e) {
+					console.log(`分享失败！`, e);
+				}
+			})
+		}
 	}
 });
